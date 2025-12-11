@@ -1,0 +1,11 @@
+{
+  "name": "com.morvarid.essential",
+  "version": "1.0.0",
+  "displayName": "Morvardi essential",
+  "description": "essential package that use in any morvarid project",
+  "unity": "2021.3",
+  "author": {
+    "name": "morvarid_studio",
+    "url": "https://github.com/Morvarid-studio"
+  }
+}

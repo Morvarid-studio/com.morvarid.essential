@@ -1,0 +1,16 @@
+{
+    "name": "morvaridessential",
+    "rootNamespace": "",
+    "references": [
+        "GUID:03f6d925c9f696e4bb535b8c922d4e1d"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
