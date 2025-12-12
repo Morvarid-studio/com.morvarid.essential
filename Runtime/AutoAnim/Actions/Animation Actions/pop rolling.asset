@@ -1,0 +1,39 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a19f25141aa44596b900e8799f4e5230, type: 3}
+  m_Name: pop rolling
+  m_EditorClassIdentifier: 
+  duration: 0.73
+  ease: 9
+  alsoFade: 0
+  fromAlpha: 0
+  startOffsetX: -30
+  startOffsetY: -15
+  xDuration: 1.5
+  yDuration: 1.4
+  xEase: 24
+  yEase: 24
+  xElastic: 1
+  xElasticAmplitude: 1
+  xElasticPeriod: 0.8
+  yElastic: 1
+  yElasticAmplitude: 1.4
+  yElasticPeriod: 0.8
+  startTiltDeg: -74.67
+  tiltDurPortion: 1.4
+  tiltEase: 24
+  rotationElasticAmplitude: 1.21
+  rotationElasticPeriod: 0.97
+  scaleEase: 27
+  scaleDuration: 0.53
+  scaleElasticAmplitude: 1.83
+  scaleElasticPeriod: 0.32

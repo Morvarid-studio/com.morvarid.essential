@@ -1,16 +1,15 @@
 #if UNITY_EDITOR
-using Sirenix.OdinInspector.Editor;
 using UnityEditor;
 using UnityEngine;
 
 namespace MorvaridEssential.Editor
 {
     [CustomEditor(typeof(Animalo))]
-    public class MenuItemsAnimatorSODrivenEditor : OdinEditor
+    public class MenuItemsAnimatorSODrivenEditor : UnityEditor.Editor
     {
         public override void OnInspectorGUI()
         {
-            base.OnInspectorGUI();
+            DrawDefaultInspector();
 
             EditorGUILayout.Space(10);
 

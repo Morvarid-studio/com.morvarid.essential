@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using DG.Tweening;
-using Sirenix.OdinInspector;
 using UnityEngine;
 
 namespace MorvaridEssential
@@ -18,6 +17,10 @@ namespace MorvaridEssential
             public float outDelay = 0.1f;
             public UIAnimAction action;
             public UIAnimAction outAction;
+
+            [Header("Override Parameters (Optional)")]
+            [Tooltip("Enable to override specific action parameters without creating new ScriptableObject")]
+            public ActionOverride actionOverride = new ActionOverride();
         }
 
         [Header("Run Settings")] public bool playOnEnable = true;
@@ -93,7 +96,25 @@ namespace MorvaridEssential
                 var rot = _baseRotZ[t];
 
                 float delay = it.delay + baseDelay;
-                var seq = it.action.Build(t, pos, sca, rot, delay);
+                
+                // Apply overrides if enabled
+                Sequence seq;
+                if (it.actionOverride != null && it.actionOverride.enabled)
+                {
+                    // Save original values
+                    it.actionOverride.SaveOriginalValues(it.action);
+                    // Apply overrides
+                    it.actionOverride.ApplyOverrides(it.action);
+                    // Build with overridden values
+                    seq = it.action.Build(t, pos, sca, rot, delay);
+                    // Restore original values
+                    it.actionOverride.RestoreOriginalValues(it.action);
+                }
+                else
+                {
+                    seq = it.action.Build(t, pos, sca, rot, delay);
+                }
+                
                 if (seq != null)
                 {
                     seq.SetAutoKill(false);
@@ -124,7 +145,24 @@ namespace MorvaridEssential
                     var sca = _baseScale[t];
                     var rot = _baseRotZ[t];
 
-                    var seq = it.outAction.Build(t, pos, sca, rot, delay);
+                    // Apply overrides if enabled (same override for outAction)
+                    Sequence seq;
+                    if (it.actionOverride != null && it.actionOverride.enabled)
+                    {
+                        // Save original values
+                        it.actionOverride.SaveOriginalValues(it.outAction);
+                        // Apply overrides
+                        it.actionOverride.ApplyOverrides(it.outAction);
+                        // Build with overridden values
+                        seq = it.outAction.Build(t, pos, sca, rot, delay);
+                        // Restore original values
+                        it.actionOverride.RestoreOriginalValues(it.outAction);
+                    }
+                    else
+                    {
+                        seq = it.outAction.Build(t, pos, sca, rot, delay);
+                    }
+                    
                     if (seq != null) _hiding.Add(seq);
                 }
                 else
@@ -185,13 +223,14 @@ namespace MorvaridEssential
             _hiding.Clear();
         }
 
-        [Button("Play Now")]
+        // Context menu methods for testing
+        [ContextMenu("Play Now")]
         void CtxPlay() => Show();
 
-        [Button("Hide Now")]
+        [ContextMenu("Hide Now")]
         void CtxHide() => Hide();
 
-        [Button("Reset Immediate")]
+        [ContextMenu("Reset Immediate")]
         void CtxReset() => ResetToBaseImmediate();
     }
 }

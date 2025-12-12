@@ -20,6 +20,19 @@ namespace MorvaridEssential
             float baseRotZ,
             float delay);
 
+        // Overload با Parameters - استفاده از Parameter Object Pattern
+        public virtual Sequence Build(RectTransform target,
+            Vector2 basePos,
+            Vector3 baseScale,
+            float baseRotZ,
+            float delay,
+            ActionParameters parameters)
+        {
+            // Default implementation: use parameters if provided, otherwise use SO fields
+            // Subclasses should override this method
+            return Build(target, basePos, baseScale, baseRotZ, delay);
+        }
+
         // ابزار مشترک برای آلفا
         protected CanvasGroup GetOrAddCG(RectTransform rt)
         {

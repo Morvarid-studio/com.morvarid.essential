@@ -70,8 +70,8 @@ public class PanelScript : MonoBehaviour
 
             if (animator)
             {
-                //refresh animator to be able to replay animation
-                animator.Play(0, -1, 0f);
+                animator.Rebind();
+                animator.Update(0f);
             }
             
             onEnableEvent?.Invoke();
