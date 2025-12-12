@@ -2,15 +2,22 @@
 using DG.Tweening;
 using UnityEngine;
 
-namespace MorvaridEssential.Transation
+namespace MorvaridEssential.Transition
 {
     public class Transition : MonoBehaviour
     {
+        public static Transition Instance;
+        
         [SerializeField] private GameObject clouds;
         [SerializeField] private GameObject blocker;
         
         [SerializeField] private Vector3 offset =  new Vector3(2500,0,0);
         [SerializeField] private float duration = 1;
+
+        private void Awake()
+        {
+            Instance = this;
+        }
 
         private void Start()
         {
