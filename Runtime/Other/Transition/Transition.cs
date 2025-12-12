@@ -1,6 +1,7 @@
 ﻿using System;
 using DG.Tweening;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace MorvaridEssential.Transition
 {
@@ -8,7 +9,7 @@ namespace MorvaridEssential.Transition
     {
         public static Transition Instance;
         
-        [SerializeField] private GameObject clouds;
+        [FormerlySerializedAs("clouds")] [SerializeField] private GameObject trasitionObject;
         [SerializeField] private GameObject blocker;
         
         [SerializeField] private Vector3 offset =  new Vector3(2500,0,0);
@@ -21,23 +22,23 @@ namespace MorvaridEssential.Transition
 
         private void Start()
         {
-            clouds.transform.position = transform.position;
+            trasitionObject.transform.position = transform.position;
             var s = DOTween.Sequence();
-            s.AppendCallback(() => { clouds.gameObject.SetActive(true); });
-            s.Append(clouds.transform.DOMove(transform.position - offset, duration / 2).SetEase(Ease.Linear));
+            s.AppendCallback(() => { trasitionObject.gameObject.SetActive(true); });
+            s.Append(trasitionObject.transform.DOMove(transform.position - offset, duration / 2).SetEase(Ease.Linear));
         }
 
-        public void ShowClud(Action done)
+        public void ShowTransition(Action done)
         {
-            clouds.transform.position = transform.position + offset;
+            trasitionObject.transform.position = transform.position + offset;
             var s = DOTween.Sequence();
             s.AppendCallback(() =>
             {
-                clouds.gameObject.SetActive(true);
+                trasitionObject.gameObject.SetActive(true);
                 blocker.gameObject.SetActive(true);
             });
 
-            s.Append(clouds.transform.DOMove(transform.position, duration / 2).SetEase(Ease.Linear));
+            s.Append(trasitionObject.transform.DOMove(transform.position, duration / 2).SetEase(Ease.Linear));
 
             s.AppendCallback(() =>
             {
@@ -45,7 +46,7 @@ namespace MorvaridEssential.Transition
                 done.Invoke();
                 
             });
-            s.Append(clouds.transform.DOMove(transform.position - offset, duration / 2).SetEase(Ease.Linear));
+            s.Append(trasitionObject.transform.DOMove(transform.position - offset, duration / 2).SetEase(Ease.Linear));
         }
     }
 }
