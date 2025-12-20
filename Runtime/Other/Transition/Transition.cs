@@ -22,15 +22,15 @@ namespace MorvaridEssential.Transition
 
         private void Start()
         {
-            trasitionObject.transform.position = transform.position;
+            trasitionObject.transform.localPosition = transform.localPosition;
             var s = DOTween.Sequence();
             s.AppendCallback(() => { trasitionObject.gameObject.SetActive(true); });
-            s.Append(trasitionObject.transform.DOMove(transform.position - offset, duration / 2).SetEase(Ease.Linear));
+            s.Append(trasitionObject.transform.DOLocalMove(transform.localPosition - offset, duration / 2).SetEase(Ease.Linear));
         }
 
         public void ShowTransition(Action done)
         {
-            trasitionObject.transform.position = transform.position + offset;
+            trasitionObject.transform.localPosition = transform.localPosition + offset;
             var s = DOTween.Sequence();
             s.AppendCallback(() =>
             {
@@ -38,7 +38,7 @@ namespace MorvaridEssential.Transition
                 blocker.gameObject.SetActive(true);
             });
 
-            s.Append(trasitionObject.transform.DOMove(transform.position, duration / 2).SetEase(Ease.Linear));
+            s.Append(trasitionObject.transform.DOLocalMove(transform.localPosition, duration / 2).SetEase(Ease.Linear));
 
             s.AppendCallback(() =>
             {
@@ -46,7 +46,7 @@ namespace MorvaridEssential.Transition
                 done.Invoke();
                 
             });
-            s.Append(trasitionObject.transform.DOMove(transform.position - offset, duration / 2).SetEase(Ease.Linear));
+            s.Append(trasitionObject.transform.DOLocalMove(transform.localPosition - offset, duration / 2).SetEase(Ease.Linear));
         }
     }
 }
