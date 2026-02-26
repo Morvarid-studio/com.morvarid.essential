@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using MorvaridEssential.Transition;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Serialization;
@@ -20,10 +21,14 @@ public class Panel_Item : MonoBehaviour
     private PanelScript _panel;
     private PanelScript Panel => _panel ??= GetComponent<PanelScript>();
 
-    [FormerlySerializedAs("_panelType")] [SerializeField] private UiPanelItemType uiPanelItemType = UiPanelItemType.NormalPanel;
+    [FormerlySerializedAs("_panelType")] [SerializeField]
+    private UiPanelItemType uiPanelItemType = UiPanelItemType.NormalPanel;
+
     [SerializeField] private bool hideStaticMenu;
 
     [SerializeField] private UnityEvent OnBack;
+    [SerializeField] private bool useTransitionToBack;
+    [SerializeField] private int transitionIndex;
 
     private void Awake()
     {
@@ -49,10 +54,10 @@ public class Panel_Item : MonoBehaviour
             case UiPanelItemType.NormalPanel:
                 if (items.Peek() == this) // we are not new
                     return;
-                
+
                 Panel_Item previos = null;
                 if (items.Count > 0)
-                     previos = items.Peek();
+                    previos = items.Peek();
 
                 items.Push(this);
                 SetStaticPanelActive(!hideStaticMenu);
@@ -85,14 +90,26 @@ public class Panel_Item : MonoBehaviour
         if (items.Count > 1)
         {
             var item = items.Pop();
-            item.OnBack?.Invoke();
-            item.Panel.SetActive(false);
-            print("back : " + item.gameObject.name);
-            
-            if (item.uiPanelItemType != UiPanelItemType.Popup)
+            System.Action backAction = () =>
             {
-                SetStaticPanelActive(!items.Peek().hideStaticMenu);
-                items.Peek().Panel.SetActive(true);
+                item.OnBack?.Invoke();
+                item.Panel.SetActive(false);
+                print("back : " + item.gameObject.name);
+
+                if (item.uiPanelItemType != UiPanelItemType.Popup)
+                {
+                    SetStaticPanelActive(!items.Peek().hideStaticMenu);
+                    items.Peek().Panel.SetActive(true);
+                }
+            };
+
+            if (item.useTransitionToBack)
+            {
+                Transition.GetInstance(item.transitionIndex).ShowTransition(backAction);
+            }
+            else
+            {
+                backAction();
             }
         }
         else
